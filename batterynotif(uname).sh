@@ -1,5 +1,5 @@
 #!/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
 POWERSUPPLY="/sys/class/power_supply/ADP1/online" # could be different on your system!
 TOO_LOW=25 # how low is too low?
 NOT_CHARGING="0"
