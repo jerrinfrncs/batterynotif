@@ -2,7 +2,10 @@
 Battery Level Notifier when Linux fails to.
 
 This work is based on a couple of answers I found on the internet,
+
 http://unix.stackexchange.com/a/190155
+http://askubuntu.com/a/519045
+https://bbs.archlinux.org/viewtopic.php?id=162900
 
 I will add others later. I have only made some additions. 
 
