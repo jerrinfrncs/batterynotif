@@ -1,8 +1,10 @@
 #!/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
 POWERSUPPLY="/sys/class/power_supply/ADP1/online" # could be different on your system!
 TOO_LOW=25 # how low is too low?
 NOT_CHARGING="0"
+
+#Select a path for your distro
 ICONL="/usr/share/icons/Ambiant-MATE/status/24/battery-caution.svg" # eye candy
 ICONH="/usr/share/icons/Ambiant-MATE/status/24/battery-080.svg"
 
@@ -40,7 +42,7 @@ if [ $BATTERY_LEVEL -le 5 -a $STATUS = $NOT_CHARGING ]
 then
     /usr/bin/notify-send -u critical -i "$ICONL" -t 3000 "System is shutting down" "Battery Critical ${BATTERY_LEVEL}%!"
     paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
-	poweroff
+	systemctl poweroff 
 fi
 
 exit 0
