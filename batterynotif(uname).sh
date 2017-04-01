@@ -14,12 +14,12 @@ do
 	STATUS=$(cat $POWERSUPPLY) #charger connected or not
     	battery_level=`upower -i $(upower -e | grep BAT) | grep --color=never -E percentage|xargs|cut -d' ' -f2|sed s/%//`
 
-    	if [ $battery_level -ge 80 -a $STATUS = 1 ] #battery Low 3
+    	if [ $battery_level -ge 80 -a $STATUS = 1 ] #battery Charged
     	then
         	/usr/bin/notify-send -i "$ICONH" "Battery Charged" "Battery level is ${battery_level}%!" 
 	paplay /usr/share/sounds/freedesktop/stereo/complete.oga
 
-	elif [ $battery_level -le 10 -a $STATUS = $NOT_CHARGING ] #battery low 2
+	elif [ $battery_level -le 10 -a $STATUS = $NOT_CHARGING ] #battery low 3 shutdown
     	then
        		/usr/bin/notify-send -i "$ICONC" "About to shutdown connect charger" "Battery level is ${battery_level}%!" 
 	 	paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
@@ -28,12 +28,12 @@ do
 		sleep 15s
 	 	systemctl poweroff 
 
-	elif [ $battery_level -le 15 -a $STATUS = $NOT_CHARGING ] #battery low 1
+	elif [ $battery_level -le 15 -a $STATUS = $NOT_CHARGING ] #battery low 2 final warning
     	then
        		/usr/bin/notify-send -i "$ICONL" "Battery Critical" "Battery level is ${battery_level}%!" 
 	 	paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
    
-    	elif [ $battery_level -le 25 -a $STATUS = $NOT_CHARGING ]
+    	elif [ $battery_level -le 25 -a $STATUS = $NOT_CHARGING ] #battery low 1 first warning
     	then
        		/usr/bin/notify-send -i "$ICONL" "Battery low" "Battery level is ${battery_level}%!" 
 	 paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
