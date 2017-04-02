@@ -1,4 +1,4 @@
 [Desktop Entry]
 Name=Battery Notifier 
-Exec=/bin/bash -c 'for f in ~/.config/autostart/scripts/filename; do eval "$f&"; done'
+Exec=/bin/bash -c ~/.config/autostart/scripts/filename
 Type=Application
