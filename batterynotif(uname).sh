@@ -1,7 +1,8 @@
 #!/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH=/usr/local/bin:/usr/bin:/bin
 POWERSUPPLY="/sys/class/power_supply/ADP1/online" # could be different on your system!
 NOT_CHARGING="0"
+#change for your system
 ICONH="/usr/share/icons/Arc/apps/24@2x/unity-power-panel.png"
 ICONL="/usr/share/icons/Arc/panel/22/gpm-battery-020.svg"
 ICONC="/usr/share/icons/Faba/24x24/panel/gpm-battery-000.svg"
@@ -35,11 +36,8 @@ do
     	elif [ $battery_level -le 25 -a $STATUS = $NOT_CHARGING ] #battery low 1 first warning
     	then
        		/usr/bin/notify-send -i "$ICONL" "Battery low" "Battery level is ${battery_level}%!" 
-	 paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
-
-	
-	
+	        paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
     	fi
-   sleep 2m
+   sleep 2m #run every two minutes
 done
     
