@@ -1,4 +1,4 @@
 [Desktop Entry]
 Name=Battery Notifier 
-Exec=/bin/bash -c ~/.config/autostart/scripts/filename
+Exec=/bin/bash -c ~/.config/autostart/scripts/batterynotif*
 Type=Application
