@@ -1,48 +1,41 @@
 #!/bin/bash
 
 POWERSUPPLY="/sys/class/power_supply/ADP1/online" # could be different on your system!
-TOO_LOW=25 # how low is too low?
 NOT_CHARGING="0"
 
 #Select a path for your distro
-ICONL="/usr/share/icons/Ambiant-MATE/status/24/battery-caution.svg" # eye candy
+ICONL="/usr/share/icons/Ambiant-MATE/status/24/battery-caution.svg"
 ICONH="/usr/share/icons/Ambiant-MATE/status/24/battery-080.svg"
 
-export DISPLAY=:0
+while true
+do
 
-BATTERY_LEVEL=$(acpi -b | grep -P -o '[0-9]+(?=%)')
+battery_level=$(acpi -b | grep -P -o '[0-9]+(?=%)')
 STATUS=$(cat $POWERSUPPLY) #charger connected or not
 
-##Battery Charged
+if [ $battery_level -ge 80 -a $STATUS = 1 ] #battery Charged
+    	then
+        	/usr/bin/notify-send -i "$ICONH" "Battery Charged" "Battery level is ${battery_level}%!" 
+	paplay /usr/share/sounds/freedesktop/stereo/complete.oga
 
-if [ $BATTERY_LEVEL -ge 80 -a $STATUS = 1 ]
-then
-    /usr/bin/notify-send -u critical -i "$ICONH" -t 3000 "Battery Charged" "Battery level is ${BATTERY_LEVEL}%!"
-    paplay /usr/share/sounds/freedesktop/stereo/complete.oga
-fi
+	elif [ $battery_level -le 10 -a $STATUS = $NOT_CHARGING ] #battery low 3 shutdown
+    	then
+       		/usr/bin/notify-send -i "$ICONC" "About to shutdown connect charger" "Battery level is ${battery_level}%!" 
+	 	paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
+         	sleep 30s
+		/usr/bin/notify-send -I "$ICONS" "Too late, Shutting down"
+		sleep 15s
+	 	systemctl poweroff 
 
-##Battery Warning 1
-
-if [ $BATTERY_LEVEL -le $TOO_LOW -a $STATUS = $NOT_CHARGING ]
-then
-    /usr/bin/notify-send -u critical -i "$ICONL" -t 3000 "Battery low" "Battery level is ${BATTERY_LEVEL}%!"
-    paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
-fi
-
-##Battery Warning 2
-
-if [ $BATTERY_LEVEL -le 10 -a $STATUS = $NOT_CHARGING ]
-then
-    /usr/bin/notify-send -u critical -i "$ICONL" -t 3000 "Connect charger or System Will Shutdown Now" "Battery Critical ${BATTERY_LEVEL}%!"
-    paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
-fi
-
-#System Shutting down
-if [ $BATTERY_LEVEL -le 5 -a $STATUS = $NOT_CHARGING ]
-then
-    /usr/bin/notify-send -u critical -i "$ICONL" -t 3000 "System is shutting down" "Battery Critical ${BATTERY_LEVEL}%!"
-    paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
-	systemctl poweroff 
-fi
-
-exit 0
+	elif [ $battery_level -le 15 -a $STATUS = $NOT_CHARGING ] #battery low 2 final warning
+    	then
+       		/usr/bin/notify-send -i "$ICONL" "Battery Critical" "Battery level is ${battery_level}%!" 
+	 	paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
+   
+    	elif [ $battery_level -le 25 -a $STATUS = $NOT_CHARGING ] #battery low 1 first warning
+    	then
+       		/usr/bin/notify-send -i "$ICONL" "Battery low" "Battery level is ${battery_level}%!" 
+	        paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga  
+    	fi
+   sleep 2m #run every two minutes
+done
