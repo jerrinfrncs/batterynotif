@@ -18,5 +18,5 @@ You can run the scripts automatically by either using cron or just adding to aut
 
 Install
 Download the .desktop configuration file and copy to /home/.conf/autostart
-Create a script folder paste the acpi or uname file
+Create a script folderinside /home/.conf/autostart and paste the acpi or uname file
 You should be set.
