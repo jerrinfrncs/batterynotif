@@ -25,19 +25,9 @@ do
 	 	paplay /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
 		
          	sleep 30s
-		STATUS=$(cat $POWERSUPPLY)
-		if [ $STATUS = 1 ]
-		then
-			continue
-		fi
-		
+	
 		/usr/bin/notify-send -i "$ICONS" "Too late, Shutting down"
 		sleep 15s
-		STATUS=$(cat $POWERSUPPLY)
-		if [ $STATUS = 1 ]
-		then
-			continue
-		fi
 	 	systemctl poweroff 
 
 	elif [ $battery_level -le 15 -a $STATUS = $NOT_CHARGING ] #battery low 2 final warning
