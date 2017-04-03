@@ -31,7 +31,7 @@ do
 			continue
 		fi
 		
-		/usr/bin/notify-send -I "$ICONS" "Too late, Shutting down"
+		/usr/bin/notify-send -i "$ICONS" "Too late, Shutting down"
 		sleep 15s
 		STATUS=$(cat $POWERSUPPLY)
 		if [ $STATUS = 1 ]
